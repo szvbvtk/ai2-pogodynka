@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,17 @@ class Location
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7)]
     private ?string $longitude = null;
+
+    /**
+     * @var Collection<int, MeasurementEntry>
+     */
+    #[ORM\OneToMany(targetEntity: MeasurementEntry::class, mappedBy: 'location')]
+    private Collection $measurementEntries;
+
+    public function __construct()
+    {
+        $this->measurementEntries = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +88,36 @@ class Location
     public function setLongitude(string $longitude): static
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MeasurementEntry>
+     */
+    public function getMeasurementEntries(): Collection
+    {
+        return $this->measurementEntries;
+    }
+
+    public function addMeasurementEntry(MeasurementEntry $measurementEntry): static
+    {
+        if (!$this->measurementEntries->contains($measurementEntry)) {
+            $this->measurementEntries->add($measurementEntry);
+            $measurementEntry->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeasurementEntry(MeasurementEntry $measurementEntry): static
+    {
+        if ($this->measurementEntries->removeElement($measurementEntry)) {
+            // set the owning side to null (unless already changed)
+            if ($measurementEntry->getLocation() === $this) {
+                $measurementEntry->setLocation(null);
+            }
+        }
 
         return $this;
     }
