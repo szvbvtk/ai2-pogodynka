@@ -11,7 +11,7 @@ use App\Repository\MeasurementEntryRepository;
 
 class WeatherController extends AbstractController
 {
-    #[Route('/weather/{country}/{city}', name: 'app_weather', requirements: ['id' => '\d+'])]
+    #[Route('/weather/{id}', name: 'app_weather', requirements: ['id' => '\d+'])]
     public function city(Location $location, MeasurementEntryRepository $measurementEntryRepository): Response
     {
         $measurementEntries = $measurementEntryRepository->findByLocation($location);
