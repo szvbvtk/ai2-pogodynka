@@ -33,39 +33,62 @@
           cursor: pointer;
         }
       }
+
+      #nav {
+        margin-bottom: 20px; /* Dodanie marginesu pod nawigacją */
+      }
+
+      .nav-link {
+        transition: color 0.3s ease; /* Dodanie efektu przejścia */
+      }
+
+      .nav-link:hover {
+        color: #007bff; /* Zmiana koloru linków po najechaniu */
+      }
+
+      #container {
+        background: rgba(255, 255, 255, 0.8); /* Lekki cień dla kontenera */
+        border-radius: 5px; /* Zaokrąglenie rogów */
+        padding: 20px; /* Dodanie paddingu */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3); /* Cień dla kontenera */
+      }
     </style>
   </head>
   <body>
-    <nav id="nav">
-      <div class="navbar navbar-expand-lg bg-body-secondary text-secondary">
-        <div class="container-fluid">
-          <span class="navbar-brand">W App</span>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item cursor-pointer">
-                <a class="nav-link">Weather</a>
-              </li>
-              <li class="nav-item cursor-pointer">
-                <a class="nav-link">Measurements</a>
-              </li>
-            </ul>
-          </div>
+    <nav
+      id="nav"
+      class="navbar navbar-expand-lg navbar-light bg-light shadow-sm"
+    >
+      <div class="container-fluid">
+        <span class="navbar-brand">W App</span>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Weather</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Measurements</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
+
     <main>
-      <div id="container" class="container pt-4">{% block body %}{% endblock %}</div>
+      <div id="container" class="container pt-4">
+        {% block body %} {% endblock %}
+      </div>
     </main>
   </body>
 </html>
