@@ -1,5 +1,8 @@
+# https://symfony.com/doc/current/form/bootstrap5.html
+
 twig:
     file_name_pattern: '*.twig'
+    form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:
     twig:
