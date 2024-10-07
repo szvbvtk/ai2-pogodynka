@@ -1,0 +1,105 @@
+App\Entity\Location:
+  properties:
+    city:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Length:
+          groups: ["create", "edit"]
+          min: 2
+          max: 100
+          minMessage: "Nazwa miasta musi mieć co najmniej {{ limit }} znaki."
+          maxMessage: "Nazwa miasta może mieć maksymalnie {{ limit }} znaków."
+    country:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Choice:
+          groups: ["create", "edit"]
+          choices:
+            [
+              "PL",
+              "IT",
+              "DE",
+              "FR",
+              "CA",
+              "ES",
+              "CN",
+              "RU",
+              "US",
+              "JP",
+              "GB",
+              "AU",
+              "BR",
+            ]
+
+    latitude:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: -90
+          max: 90
+          notInRangeMessage: "Szerokość geograficzna musi być między {{ min }} a {{ max }} stopni."
+    longitude:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: -180
+          max: 180
+          notInRangeMessage: "Długość geograficzna musi być między {{ min }} a {{ max }} stopni."
+
+App\Entity\MeasurementEntry:
+  properties:
+    dateTime:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Type:
+          type: \DateTimeInterface
+          message: "Wartość musi być prawidłową datą i godziną."
+    temperature_celcius:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: -100
+          max: 60
+          notInRangeMessage: "Temperatura musi być między {{ min }} a {{ max }} stopni Celsjusza."
+    humidity:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: 0
+          max: 100
+          notInRangeMessage: "Wilgotność musi być między {{ min }}% a {{ max }}%."
+    pressure:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: 300
+          max: 1100
+          notInRangeMessage: "Ciśnienie musi być między {{ min }} hPa a {{ max }} hPa."
+    wind_speed:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: 0
+          max: 100
+          notInRangeMessage: "Prędkość wiatru musi być między {{ min }} a {{ max }} km/h."
+    wind_direction:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Choice:
+          groups: ["create", "edit"]
+          choices: ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+          message: "Kierunek wiatru musi być jednym z: N, NE, E, SE, S, SW, W, NW."
+    feels_like:
+      - NotBlank:
+          groups: ["create", "edit"]
+      - Range:
+          groups: ["create", "edit"]
+          min: -100
+          max: 60
+          notInRangeMessage: "Temperatura odczuwalna musi być między {{ min }} a {{ max }} stopni Celsjusza."
