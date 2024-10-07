@@ -86,7 +86,7 @@ App\Entity\MeasurementEntry:
       - Range:
           groups: ["create", "edit"]
           min: 0
-          max: 100
+          max: 4000
           notInRangeMessage: "Prędkość wiatru musi być między {{ min }} a {{ max }} km/h."
     wind_direction:
       - NotBlank:
