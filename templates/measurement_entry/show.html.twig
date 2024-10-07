@@ -1,50 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MeasurementEntry{% endblock %}
+{% block title %}MeasurementEntry
+{% endblock %}
 
 {% block body %}
-    <h1>MeasurementEntry</h1>
+	<h1>MeasurementEntry</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ measurement_entry.id }}</td>
-            </tr>
-            <tr>
-                <th>DateTime</th>
-                <td>{{ measurement_entry.dateTime ? measurement_entry.dateTime|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Temperature_celcius</th>
-                <td>{{ measurement_entry.temperatureCelcius }}</td>
-            </tr>
-            <tr>
-                <th>Humidity</th>
-                <td>{{ measurement_entry.humidity }}</td>
-            </tr>
-            <tr>
-                <th>Pressure</th>
-                <td>{{ measurement_entry.pressure }}</td>
-            </tr>
-            <tr>
-                <th>Wind_speed</th>
-                <td>{{ measurement_entry.windSpeed }}</td>
-            </tr>
-            <tr>
-                <th>Wind_direction</th>
-                <td>{{ measurement_entry.windDirection }}</td>
-            </tr>
-            <tr>
-                <th>Feels_like</th>
-                <td>{{ measurement_entry.feelsLike }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ measurement_entry.id }}</td>
+			</tr>
+			<tr>
+				<th>DateTime</th>
+				<td>{{ measurement_entry.dateTime ? measurement_entry.dateTime|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Temperature_celcius</th>
+				<td>{{ measurement_entry.temperatureCelcius }}</td>
+			</tr>
+			<tr>
+				<th>Humidity</th>
+				<td>{{ measurement_entry.humidity }}</td>
+			</tr>
+			<tr>
+				<th>Pressure</th>
+				<td>{{ measurement_entry.pressure }}</td>
+			</tr>
+			<tr>
+				<th>Wind_speed</th>
+				<td>{{ measurement_entry.windSpeed }}</td>
+			</tr>
+			<tr>
+				<th>Wind_direction</th>
+				<td>{{ measurement_entry.windDirection }}</td>
+			</tr>
+			<tr>
+				<th>Feels_like</th>
+				<td>{{ measurement_entry.feelsLike }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_measurement_entry_index') }}">back to list</a>
+	<div>
+		<a href="{{ path('app_measurement_entry_index') }}" class="btn btn-primary">back to list</a>
+	</div>
 
-    <a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}">edit</a>
+	<div>
+		<a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}" class="btn btn-secondary my-1 d-block">edit</a>
+	</div>
 
-    {{ include('measurement_entry/_delete_form.html.twig') }}
+	{{ include('measurement_entry/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,47 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MeasurementEntry index{% endblock %}
+{% block title %}MeasurementEntry index
+{% endblock %}
 
 {% block body %}
-    <h1>MeasurementEntry index</h1>
+	<h1>MeasurementEntry index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateTime</th>
-                <th>Temperature_celcius</th>
-                <th>Humidity</th>
-                <th>Pressure</th>
-                <th>Wind_speed</th>
-                <th>Wind_direction</th>
-                <th>Feels_like</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for measurement_entry in measurement_entries %}
-            <tr>
-                <td>{{ measurement_entry.id }}</td>
-                <td>{{ measurement_entry.dateTime ? measurement_entry.dateTime|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ measurement_entry.temperatureCelcius }}</td>
-                <td>{{ measurement_entry.humidity }}</td>
-                <td>{{ measurement_entry.pressure }}</td>
-                <td>{{ measurement_entry.windSpeed }}</td>
-                <td>{{ measurement_entry.windDirection }}</td>
-                <td>{{ measurement_entry.feelsLike }}</td>
-                <td>
-                    <a href="{{ path('app_measurement_entry_show', {'id': measurement_entry.id}) }}">show</a>
-                    <a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>DateTime</th>
+				<th>Temperature_celcius</th>
+				<th>Humidity</th>
+				<th>Pressure</th>
+				<th>Wind_speed</th>
+				<th>Wind_direction</th>
+				<th>Feels_like</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for measurement_entry in measurement_entries %}
+				<tr>
+					<td>{{ measurement_entry.id }}</td>
+					<td>{{ measurement_entry.dateTime ? measurement_entry.dateTime|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ measurement_entry.temperatureCelcius }}</td>
+					<td>{{ measurement_entry.humidity }}</td>
+					<td>{{ measurement_entry.pressure }}</td>
+					<td>{{ measurement_entry.windSpeed }}</td>
+					<td>{{ measurement_entry.windDirection }}</td>
+					<td>{{ measurement_entry.feelsLike }}</td>
+					<td>
+						<a href="{{ path('app_measurement_entry_show', {'id': measurement_entry.id}) }}" class="btn btn-info">show</a>
+						<a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}" class="btn btn-secondary">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="9">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_measurement_entry_new') }}">Create new</a>
+	<a href="{{ path('app_measurement_entry_new') }}" class="btn btn-primary">Create new</a>
 {% endblock %}

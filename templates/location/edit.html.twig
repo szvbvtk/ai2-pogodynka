@@ -7,7 +7,7 @@
 
     {{ include('location/_form.html.twig', {'button_label': 'Update', 'button_color': 'success'}) }}
 
-    <a href="{{ path('app_location_index') }}">back to list</a>
+    <a href="{{ path('app_location_index') }}" class="btn btn-secondary my-1">back to list</a>
 
     {{ include('location/_delete_form.html.twig') }}
 {% endblock %}
