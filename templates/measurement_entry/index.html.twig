@@ -33,8 +33,13 @@
 						<td>{{ measurement_entry.windDirection }}</td>
 						<td>{{ measurement_entry.feelsLike }}</td>
 						<td>
-							<a href="{{ path('app_measurement_entry_show', {'id': measurement_entry.id}) }}" class="btn btn-info">show</a>
-							<a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}" class="btn btn-secondary">edit</a>
+							{% if is_granted('ROLE_MEASUREMENT_SHOW') %}
+								<a href="{{ path('app_measurement_entry_show', {'id': measurement_entry.id}) }}" class="btn btn-info p-0.5">show</a>
+							{% endif %}
+
+							{% if is_granted('ROLE_MEASUREMENT_EDIT') %}
+								<a href="{{ path('app_measurement_entry_edit', {'id': measurement_entry.id}) }}" class="btn btn-secondary">edit</a>
+							{% endif %}
 						</td>
 					</tr>
 				{% else %}
@@ -46,5 +51,8 @@
 		</table>
 	</div>
 
-	<a href="{{ path('app_measurement_entry_new') }}" class="btn btn-primary">Create new</a>
+	{% if is_granted('ROLE_MEASUREMENT_NEW') %}
+		<a href="{{ path('app_measurement_entry_new') }}" class="btn btn-primary">Create new</a>
+	{% endif %}
+
 {% endblock %}
