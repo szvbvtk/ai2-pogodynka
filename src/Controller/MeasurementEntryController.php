@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/measurement/entry')]
 final class MeasurementEntryController extends AbstractController
 {
     #[Route(name: 'app_measurement_entry_index', methods: ['GET'])]
+    #[IsGranted('ROLE_MEASUREMENT_INDEX')]
     public function index(MeasurementEntryRepository $measurementEntryRepository): Response
     {
         return $this->render('measurement_entry/index.html.twig', [
@@ -23,6 +25,7 @@ final class MeasurementEntryController extends AbstractController
     }
 
     #[Route('/new', name: 'app_measurement_entry_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MEASUREMENT_NEW')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $measurementEntry = new MeasurementEntry();
@@ -46,6 +49,7 @@ final class MeasurementEntryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_measurement_entry_show', methods: ['GET'])]
+    #[IsGranted('ROLE_MEASUREMENT_SHOW')]
     public function show(MeasurementEntry $measurementEntry): Response
     {
         return $this->render('measurement_entry/show.html.twig', [
@@ -54,6 +58,7 @@ final class MeasurementEntryController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_measurement_entry_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_MEASUREMENT_EDIT')]
     public function edit(Request $request, MeasurementEntry $measurementEntry, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(MeasurementEntryType::class, $measurementEntry, [
@@ -75,6 +80,7 @@ final class MeasurementEntryController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_measurement_entry_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_MEASUREMENT_DELETE')]
     public function delete(Request $request, MeasurementEntry $measurementEntry, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$measurementEntry->getId(), $request->getPayload()->getString('_token'))) {
