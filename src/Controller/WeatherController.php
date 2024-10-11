@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 use App\Repository\LocationRepository;
 use App\Repository\MeasurementEntryRepository;
-
+use App\Service\WeatherUtil;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 
 class WeatherController extends AbstractController
@@ -16,12 +16,11 @@ class WeatherController extends AbstractController
 
     #[Route('/weather/{city}/{country?}', name: 'app_weather', requirements: ['city' => '[a-zA-Z-]+', 'country' => '[a-zA-Z]{2}'])]
     public function city( 
-        // nie wiem czy da się zrobić tak żeby country było opcjonalne w tym mmiejscu
         // #[MapEntity(mapping: ['city' => 'city', 'country' => 'country'])]
         // Location $location,
         string $city, 
         ?string $country,
-        MeasurementEntryRepository $measurementEntryRepository,
+        WeatherUtil $weatherUtil,
         LocationRepository $locationRepository,
         ): Response
     {
@@ -37,10 +36,7 @@ class WeatherController extends AbstractController
             $location = $locationRepository->findOneByCity($city);
         }
 
-
-
-
-        $measurementEntries = $measurementEntryRepository->findByLocation($location);
+        $measurementEntries = $weatherUtil->getWeatherForLocation($location);
 
         return $this->render('weather/city.html.twig', [
             'location' => $location,
