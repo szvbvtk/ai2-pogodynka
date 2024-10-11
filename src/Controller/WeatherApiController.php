@@ -45,14 +45,14 @@ class WeatherApiController extends AbstractController
                             'timestamp' => $m->getDateTime()->format('Y-m-d H:i:s'),
                             'wind_speed' => $m->getWindSpeed(),
                             'wind_direction' => $m->getWindDirection(),
+                            'temperature_fahrenheit' => $m->getFahrenheit(),
                         ],
                         $measurementEntries
                     ),
                 ]
             );
         } else if ($format === 'csv') {
-            if($twig === true) 
-            {
+            if ($twig === true) {
                 return $this->render('weather_api/index.csv.twig', [
                     'city' => $city,
                     'country' => $country,
@@ -60,10 +60,10 @@ class WeatherApiController extends AbstractController
                 ]);
             }
 
-            $csv = "city,country,temperature_celcius,feels_like,humidity,pressure,timestamp,wind_speed,wind_direction\n";
+            $csv = "city,country,temperature_celcius,feels_like,humidity,pressure,timestamp,wind_speed,wind_direction,temperature_fahrenheit\n";
             foreach ($measurementEntries as $m) {
                 $csv .= sprintf(
-                    "%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+                    "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                     $city,
                     $country,
                     $m->getTemperatureCelcius(),
@@ -72,7 +72,8 @@ class WeatherApiController extends AbstractController
                     $m->getPressure(),
                     $m->getDateTime()->format('Y-m-d H:i:s'),
                     $m->getWindSpeed(),
-                    $m->getWindDirection()
+                    $m->getWindDirection(),
+                    $m->getFahrenheit()
                 );
             }
 

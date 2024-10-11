@@ -10,7 +10,8 @@
                 'pressure': "{{ measurement.pressure }}"
                 'date': "{{ measurement.dateTime.format('Y-m-d H:i:s') }}",
                 'wind_speed': "{{ measurement.windSpeed }}",
-                'wind_direction': "{{ measurement.windDirection }}"
+                'wind_direction': "{{ measurement.windDirection }}",
+                'temperature_fahrenheit': "{{ measurement.fahrenheit }}"
             }{% if not loop.last %},{% endif %}
         {% endfor %}
     ]

@@ -93,6 +93,12 @@ class MeasurementEntry
         return $this;
     }
 
+    public function getFahrenheit(): ?string
+    {
+        $fahrenheit = number_format((($this->temperature_celcius * 9 / 5) + 32), 2);
+        return $fahrenheit;
+    }
+
     public function getHumidity(): ?string
     {
         return $this->humidity;
