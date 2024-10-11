@@ -62,7 +62,7 @@ App\Entity\MeasurementEntry:
       - Range:
           groups: ["create", "edit"]
           min: -100
-          max: 60
+          max: 100
           notInRangeMessage: "Temperatura musi być między {{ min }} a {{ max }} stopni Celsjusza."
     humidity:
       - NotBlank:
