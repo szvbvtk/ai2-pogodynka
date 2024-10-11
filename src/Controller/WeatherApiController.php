@@ -17,12 +17,21 @@ class WeatherApiController extends AbstractController
         #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/^[a-zA-Z-]+$/'])] string $city,
         #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/^[a-zA-Z]{2}$/'])] string $country,
         #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/^(csv|json)$/'])] string $format,
+        #[MapQueryParameter('twig')] bool $twig = false,
         WeatherUtil $weatherUtil,
     ): Response {
 
         $measurementEntries = $weatherUtil->getWeatherForCountryAndCity($country, $city);
 
         if ($format === 'json') {
+            if ($twig === true) {
+                return $this->render('weather_api/index.json.twig', [
+                    'city' => $city,
+                    'country' => $country,
+                    'measurements' => $measurementEntries,
+                ]);
+            }
+
             return $this->json(
                 [
                     'city' => $city,
@@ -42,6 +51,15 @@ class WeatherApiController extends AbstractController
                 ]
             );
         } else if ($format === 'csv') {
+            if($twig === true) 
+            {
+                return $this->render('weather_api/index.csv.twig', [
+                    'city' => $city,
+                    'country' => $country,
+                    'measurements' => $measurementEntries,
+                ]);
+            }
+
             $csv = "city,country,temperature_celcius,feels_like,humidity,pressure,timestamp,wind_speed,wind_direction\n";
             foreach ($measurementEntries as $m) {
                 $csv .= sprintf(

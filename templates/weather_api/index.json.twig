@@ -1,0 +1,17 @@
+{
+    'city': "{{ city }}",
+    'country': "{{ country }}",
+    'measurements': [
+        {% for measurement in measurements %}
+            {
+                'temperature_celcius': "{{ measurement.temperatureCelcius }}",
+                'feels_like': "{{ measurement.feelsLike }}",
+                'humidity': "{{ measurement.humidity }}",
+                'pressure': "{{ measurement.pressure }}"
+                'date': "{{ measurement.dateTime.format('Y-m-d H:i:s') }}",
+                'wind_speed': "{{ measurement.windSpeed }}",
+                'wind_direction': "{{ measurement.windDirection }}"
+            }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}

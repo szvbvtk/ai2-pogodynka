@@ -1,0 +1,13 @@
+city,country,temperature_celcius,feels_like,humidity,pressure,timestamp,wind_speed,wind_direction
+{% for measurement in measurements %}
+    {{"\n"|nl2br}}
+	{{- city -}},
+	{{- country -}},
+	{{- measurement.temperatureCelcius -}},
+	{{- measurement.feelsLike -}},
+	{{- measurement.humidity -}},
+	{{- measurement.pressure -}},
+	{{- measurement.dateTime.format('Y-m-d H:i:s') -}},
+	{{- measurement.windSpeed -}},
+	{{- measurement.windDirection -}}
+{% endfor -%}
