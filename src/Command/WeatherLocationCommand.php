@@ -2,11 +2,12 @@
 
 namespace App\Command;
 
+use App\Repository\LocationRepository;
+use App\Service\WeatherUtil;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -16,33 +17,50 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class WeatherLocationCommand extends Command
 {
-    public function __construct()
-    {
+    public function __construct(
+        private WeatherUtil $weatherUtil,
+        private LocationRepository $locationRepository,
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->setDescription("Get the weather for a location")
+            ->setHelp("This command allows you to get the weather for a location")
+            ->addArgument('location_id', InputArgument::REQUIRED, "Location id")
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $arg1 = $input->getArgument('arg1');
+        $location_id = $input->getArgument('location_id');
 
-        if ($arg1) {
-            $io->note(sprintf('You passed an argument: %s', $arg1));
+        $location = $this->locationRepository->find($location_id);
+
+        if (!$location) {
+            $io->error("Location not found");
+            return Command::FAILURE;
         }
 
-        if ($input->getOption('option1')) {
-            // ...
+        $measurementEntries = $this->weatherUtil->getWeatherForLocation($location);
+
+        if (empty($measurementEntries)) {
+            $io->error("No weather data found for location");
+            return Command::FAILURE;
         }
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+        $io->success("Weather data for location: " . $location->getCity() . ", " . $location->getCountry());
+        $io->table(
+            ['Date', 'Temperature', 'Feels like' , 'Humidity', 'Pressure', 'Wind Speed', 'Wind Direction'],
+            array_map(function ($measurementEntry) {
+                return [$measurementEntry->getDateTime()->format('Y-m-d H:i:s'), $measurementEntry->getTemperatureCelcius(), $measurementEntry->getFeelsLike() ,
+                $measurementEntry->getHumidity(), $measurementEntry->getPressure(), $measurementEntry->getWindSpeed(), $measurementEntry->getWindDirection()];
+            }, $measurementEntries)
+        );
+
 
         return Command::SUCCESS;
     }
